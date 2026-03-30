@@ -237,8 +237,11 @@ export default defineConfig({
       '/analytics': proxyConfig,
       '/serviceedges': proxyConfig,
       '/qualitymetrics-v2': proxyConfig,
-      // CopilotKit / Jaeger assistant runtime (dev default in copilot-runtime.ts).
-      '/jaeger-assistant': proxyConfig,
+      // CopilotKit runtime URL in the UI; rewrite to backend assistant route.
+      '/jaeger-assistant': {
+        ...proxyConfig,
+        rewrite: () => '/api/ai/chat',
+      },
     },
   },
   base: './',

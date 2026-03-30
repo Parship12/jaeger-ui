@@ -51,20 +51,75 @@ SPDX-License-Identifier: Apache-2.0
   display: flex;
   flex-direction: column;
   position: relative;
+  background: var(--surface-primary);
 }
 
-.JaegerAssistantPanel-chat.copilotKitChat {
-  --copilot-kit-primary-color: var(--interactive-primary);
-  --copilot-kit-contrast-color: var(--text-inverse);
-  --copilot-kit-background-color: var(--surface-primary);
-  --copilot-kit-secondary-color: var(--surface-secondary);
-  --copilot-kit-secondary-contrast-color: var(--text-primary);
-  --copilot-kit-response-button-color: var(--interactive-primary);
-  --copilot-kit-separator-color: var(--border-default);
-  --copilot-kit-muted-color: var(--text-muted);
-
+.JaegerAssistantPanel-messages {
   flex: 1;
+  overflow: auto;
   min-height: 0;
-  border: none;
-  border-radius: 0;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.JaegerAssistantPanel-empty {
+  color: var(--text-muted);
+  font-size: 13px;
+  padding: 4px 2px;
+}
+
+.JaegerAssistantPanel-message {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-default);
+}
+
+.JaegerAssistantPanel-message--user {
+  align-self: flex-end;
+  background: var(--surface-secondary);
+  max-width: 92%;
+}
+
+.JaegerAssistantPanel-message--assistant {
+  align-self: flex-start;
+  background: var(--surface-primary);
+  max-width: 100%;
+}
+
+.JaegerAssistantPanel-messageRole {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.JaegerAssistantPanel-messageText {
+  white-space: pre-wrap;
+  color: var(--text-primary);
+  font-size: 13px;
+}
+
+.JaegerAssistantPanel-error {
+  margin: 0 12px 8px;
+  color: var(--status-error-text, #c62828);
+  font-size: 12px;
+}
+
+.JaegerAssistantPanel-inputBar {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  padding: 10px 12px 12px;
+  border-top: 1px solid var(--border-default);
+  background: var(--surface-secondary);
+}
+
+.JaegerAssistantPanel-inputBar .ant-input-textarea {
+  flex: 1;
 }

@@ -10,23 +10,6 @@ jest.mock('./copilot-runtime', () => ({
   getJaegerCopilotRuntimeUrl: jest.fn(),
 }));
 
-jest.mock('@copilotkit/runtime-client-gql', () => ({
-  MessageRole: { User: 'user' },
-  TextMessage: class TextMessage {
-    constructor() {}
-  },
-}));
-
-jest.mock('@copilotkit/react-core', () => ({
-  useCopilotChat: () => ({
-    appendMessage: jest.fn().mockResolvedValue(undefined),
-  }),
-}));
-
-jest.mock('@copilotkit/react-ui', () => ({
-  CopilotChat: () => <div data-testid="CopilotChat-mock" />,
-}));
-
 import { getJaegerCopilotRuntimeUrl } from './copilot-runtime';
 import JaegerAssistantPanel from './JaegerAssistantPanel';
 import { JaegerAssistantProvider, useJaegerAssistant } from './JaegerAssistantContext';
@@ -46,6 +29,22 @@ function OpenPanelHarness() {
 describe('JaegerAssistantPanel', () => {
   beforeEach(() => {
     getJaegerCopilotRuntimeUrl.mockReset();
+    global.ResizeObserver = class ResizeObserver {
+      observe() {}
+
+      unobserve() {}
+
+      disconnect() {}
+    };
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      body: null,
+      text: jest.fn().mockResolvedValue(''),
+    });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
   });
 
   it('renders nothing when no Copilot runtime URL is configured', () => {
@@ -69,7 +68,7 @@ describe('JaegerAssistantPanel', () => {
     await user.click(screen.getByRole('button', { name: 'open assistant' }));
     expect(screen.getByTestId('JaegerAssistantPanel')).toBeInTheDocument();
     expect(screen.getByText('Jaeger assistant')).toBeInTheDocument();
-    expect(screen.getByTestId('CopilotChat-mock')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Message…')).toBeInTheDocument();
   });
 
   it('closes when the close button is clicked', async () => {
